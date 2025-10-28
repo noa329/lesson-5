@@ -54,3 +54,39 @@ app.delete('/books/:id', (req, res) => {
         res.status(404).send('Book not found');
     }
 });
+//השאלת ספר
+app.patch('/books/:id/borrow', (req, res) => {
+    const book=books.find(b=>b.id===+req.params.id)
+    const userId=req.body.userId;
+    if (!book) {
+     res.status(404).send('Book not found');
+     return;
+  }
+
+  if (book.isBorrowed) {
+     res.status(400).send('Book is already borrowed');
+     return;
+  }
+    // סימון הספר כמושאל
+    book.isBorrowed = true;
+    borrows.push({
+      userId,
+      borrowDate: new Date().toISOString().split('T')[0] // תאריך היום בפורמט YYYY-MM-DD
+    });
+    res.send(`Book "${book.name}" borrowed successfully by user ${userId}`);
+
+});
+//החזרת ספר
+app.patch('/books/:id/return', (req, res) => {
+    const book=books.find(b=>b.id===+req.params.id)
+    if (!book) {
+     res.status(404).send('Book not found');
+     return;
+  }
+    if (!book.isBorrowed) {
+        res.status(400).send('Book is not borrowed');
+        return;
+     }
+     book.isBorrowed = false;
+     res.send(`Book "${book.name}" returned successfully`);
+});
