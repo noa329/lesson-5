@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {addBook,deleteBook,updateBook,getAllBooks,getBookById,borrowBook,returnBook}from "./controllers./book.controller.js"
+import {addBook,deleteBook,updateBook,getAllBooks,getBookById,borrowBook,returnBook}from "../controllers/book.controller.js"
 
 const router = Router();
 //קבלת כל הספרים
@@ -20,3 +20,4 @@ router.patch('/:id/borrow', borrowBook) ;
 router.patch('/:id/return',returnBook);
 //מחיקת ספר
 router.delete('/:id',deleteBook);
+export default router;
