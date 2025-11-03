@@ -1,8 +1,7 @@
 import express from 'express';
-import {borrows, books } from './db.js';
-import {users} from './user.js';
+import { config } from 'dotenv';
 
-
+config();
 import bookRouter from './routes/book.route.js'
 import userRouter from './routes/user.route.js'
 
@@ -18,7 +17,7 @@ app.get('/', (req, res) => {
 app.use('/books',bookRouter);
 app.use('/users', userRouter);
 
-const port = 5000;
+const port = process.env.PORT??3000 ;
 //הפעלת השרת
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
