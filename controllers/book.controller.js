@@ -18,7 +18,7 @@ export const getBookById=(req, res) => {
     if (book) {
         res.json(book);
     } else {
-        res.status(404).json('Book not found');
+        return next({ status: 404, message:'Book not found' });
     }
 };
 //הוספת ספר חדש
@@ -34,7 +34,7 @@ export const updateBook=(req, res) => {
         books[bookIndex] = { ...books[bookIndex], ...req.body };
         res.status(204).json();
     } else {
-        res.status(404).json('Book not found');
+       return  next({ status: 404, message: 'Book not found'});
     }
 };
 
@@ -43,15 +43,15 @@ export const borrowBook= (req, res) => {
     const book=books.find(b=>b.id===+req.params.id)
     const user=users.find(u=>u.code===+req.body.userId) ;
     if (!book) {
-    return res.status(404).json('Book not found');
+    return next({ status: 404, message: 'Book not found' });
     }
    if (!user) {
-    return res.status(404).json('User not found');
+     return next({ status: 404, message: 'User not found' });
    }
   
 
   if (book.isBorrowed) {
-    return res.status(400).json('Book is already borrowed');
+     return next({ status: 404, message: 'Book is already borrowed' });
      
   }
     // סימון הספר כמושאל
@@ -69,11 +69,11 @@ export const returnBook= (req, res) => {
     const book=books.find(b=>b.id===+req.params.id)
     const user=users.find(u=>u.Borrowedbooks.some(x=>x==+req.params.id))
     if (!book) {
-     return res.status(404).json('Book not found');
+      return next({ status: 404, message:'Book not found'  });
      
   }
     if (!book.isBorrowed) {
-       return res.status(400).json('Book is not borrowed');
+       return  next({ status: 404, message:  'Book is not borrowed'});
         
      }
      book.isBorrowed = false;
@@ -92,6 +92,6 @@ export const deleteBook=(req, res) => {
         res.status(204).end();
     } 
     else {
-        res.status(404).json('Book not found');
+        return  next({ status: 404, message: 'Book not found' });
     }
 };

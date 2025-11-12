@@ -6,7 +6,7 @@ import { users } from '../user.js';
   const existingUser = users.find( u => u.email === email || u.userName === userName);
 
   if (existingUser) {
-    return res.status(409).json('User already exists'); 
+     return  next({ status: 404, message: 'User already exists' });
   }
 
     const newuser = req.body;
@@ -18,11 +18,11 @@ export const sign_in=(req, res) => {
    const { email, password } = req.body;
   const user = users.find(u => u.email === email);
   if (!user) {
-    return res.status(404).json('User not found');
+      return  next({ status: 404, message:'User not found'});
   }
 
   if (user.password !== password) {
-    return res.status(401).json('Invalid password'); 
+    return  next({ status: 401, message: 'Invalid password'});
   }
 
   res.status(200).json({

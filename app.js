@@ -3,7 +3,9 @@ import { config } from 'dotenv';
 
 config();
 import { addRequestDate, printDateGET } from './middlewares/Date.middlewares.js';
-import { addRequestDate, createBlockDays, printDateGET } from './middlewares/blockDays.middleware.js';
+import {createBlockDays} from './middlewares/blockDays.middleware.js';
+import {errorHandler ,notFoundHandler} from './middlewares/errors.middleware.js';
+
 
 import bookRouter from './routes/book.route.js'
 import userRouter from './routes/user.route.js'
@@ -24,6 +26,10 @@ app.get('/', (req, res) => {
 });
 app.use('/books',bookRouter);
 app.use('/users', userRouter);
+
+
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 const port = process.env.PORT??3000 ;
 //הפעלת השרת
