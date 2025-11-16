@@ -9,12 +9,16 @@ import {errorHandler ,notFoundHandler} from './middlewares/errors.middleware.js'
 
 import bookRouter from './routes/book.route.js'
 import userRouter from './routes/user.route.js'
-
+import cors from 'cors';
+import morgan from 'morgan';
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(morgan('dev'));
+app.use(cors());
 
 app.use(addRequestDate);
 app.use(createBlockDays());
