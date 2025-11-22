@@ -23,6 +23,7 @@ app.use(cors());
 app.use(addRequestDate);
 app.use(createBlockDays());
 app.use(printDateGET);
+app.use(express.static('public'));
 
 //נתיב ברירת מחדל
 app.get('/', (req, res) => {
