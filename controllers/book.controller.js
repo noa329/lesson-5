@@ -1,6 +1,16 @@
 import { books, borrows } from '../db.js';
 import { users } from '../user.js';
 
+export const uploadBookImage = (req, res, next) => {
+  const book = books.find(b => b.id === +req.params.id);
+  if (!book) return next({ status: 404, message: 'Book not found' });
+
+  if (!req.file) return next({ status: 400, message: 'No file uploaded' });
+
+  book.image = `/images/${req.file.filename}`;
+  res.status(201).json({ message: 'Image uploaded', book });
+};
+
 //קבלת כל הספרים
 export const getAllBooks=(req, res) => {
      const { page = 1, limit = 5, category = 'cooking' } = req.query;

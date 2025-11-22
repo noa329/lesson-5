@@ -1,13 +1,14 @@
 import { Router } from "express";
-import {addBook,deleteBook,updateBook,getAllBooks,getBookById,borrowBook,returnBook}from "../controllers/book.controller.js"
+import {addBook,deleteBook,updateBook,getAllBooks,getBookById,borrowBook,returnBook,uploadBookImage}from "../controllers/book.controller.js"
 import { joiValidator } from "../middlewares/joi-validator.middleware.js";
 import { validateBook } from "../models/book.model.js";
+import { upload } from '../middlewares/multerConfig.js';
 
 const router = Router();
 //קבלת כל הספרים
 router.get('', getAllBooks) ;
-
-
+// העלאת תמונה לספר לפי ID
+router.post('/:id/image', upload.single('image'), uploadBookImage);
 //קבלת ספר לפי קוד
 router.get('/:id',getBookById);
 //הוספת ספר חדש
