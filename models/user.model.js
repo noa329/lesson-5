@@ -24,7 +24,7 @@ const userSchema= new Schema({
     email:{type: String, unique: true},
     password: String,
     phone: String,
-
+    role: { type:String, enums: ['admin', 'user'], required: true }
 });
 
 userSchema.pre('save',async function() {
