@@ -37,5 +37,17 @@ userSchema.pre('save',async function() {
   this.password = await bcrypt.hashSync(this.password, salt);
 });
 
+userSchema.methods.comparePassword = async function (newPassword) {
+  return bcrypt.compareSync(newPassword, this.password);
+};
+
+userSchema.set('toJSON', {
+  virtuals: true,
+  transform:(doc, converted) => {
+    delete converted._id;
+    delete converted.__v;
+    delete converted.password;
+  }
+});
 export default  model('User',userSchema);
  

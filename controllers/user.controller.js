@@ -38,13 +38,8 @@ export const sign_in = async (req, res, next) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
-    if (!user) {
-      return next({ status: 404, message: 'User not found' });
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return next({ status: 401, message: 'Invalid password' });
+     if (!user || !(await user.comparePassword(password))) {
+      return next({ status: 401, message: 'Email or password invalid' });
     }
 
     res.status(200).json({
